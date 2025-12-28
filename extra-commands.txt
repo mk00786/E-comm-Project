@@ -1,0 +1,28 @@
+db.products.aggregate([
+    {
+        $unwind:"$ratings"
+    },
+    {
+        $group:{
+            _id:"$name",
+            averageRating:{$avg:"$ratings.rating"}
+        }
+    }
+])
+
+
+db.products.aggregate([
+    {
+        //name of product and countOfRating
+        $project:{name:1,countOfRating:{$cond:{if:{$isArray:"$ratings"},then:{$size:"$ratings"},else:0}}}
+    },
+    {
+        //sort the selection
+        $sort:{countOfRating:-1}
+    },{
+        //limit to one item
+        $limit:1
+    }
+])
+
+db.products.
