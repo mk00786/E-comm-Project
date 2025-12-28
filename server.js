@@ -47,11 +47,6 @@ app.use('/api/products',jwtAuth,productRouter);
 app.use('/api/cartItems',jwtAuth,cartRouter);
 app.use('/api/likes',jwtAuth,likesRouter);
 
-//404 middleware ..always put this at end
-app.use((req,res)=>{
-    res.send('API not found.Refer localhost:3000/api-docs for more info.')
-})
-
 app.get('/',(req,res)=>{
     res.send('Welcome to E-comm API');
 })
@@ -68,6 +63,11 @@ app.use((err,req,res,next)=>{
 
     console.log(err);
     res.status(500).send('Something went wrong.Please try again.');
+})
+
+//404 middleware ..always put this at end
+app.use((req,res)=>{
+    res.send('API not found.Refer localhost:3000/api-docs for more info.')
 })
 
 app.listen(3000, ()=>{
